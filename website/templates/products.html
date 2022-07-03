@@ -1,0 +1,93 @@
+{% extends "base.html" %} {% block title %}Products{% endblock %} {% block content
+%}
+
+<style>
+  .pbox{
+    height: 300px;
+    width: 300px;
+    border: solid thin #eee;
+    border-radius: 10%;
+    background-color: whitesmoke;
+    float: left;
+    text-align: center;
+    margin: 10px;
+  }
+</style>
+
+
+<section class="row">
+
+  <div class="col-lg-6" style="border-left: solid thin black; padding-top: 30px;
+    padding-left: 8px; padding-right: 0px;" >
+    <h3 class="col-lg-12 text-center"> Products </h3>
+
+      {% for product in products %}
+      <form method="POST" class="pbox" action="/order">
+        <div >
+          <h3> {{product.name}} </h3>
+          <h5> Cat: {{product.category}} </h5>
+          <h5> Rating: {{product.rating}} </h5>
+          <h5> Price: {{product.price}} </h5>
+          <h5> Qty: {{product.qty}} </h5>
+          <h5> <input type="hidden" class="col-lg-2" id="product_id" name="product_id" required="required" value="{{product.id}}"/>
+            <input type="number" class="form-control form-control-lg col-lg-6" id="order_qty" name="order_qty"
+                       placeholder="Order qty" required="required" />
+          </h5>
+          <button type="submit" class="btn btn-lg btn-primary"> Order  </button>
+        </div>
+
+<!--        <tr>-->
+<!--          <td> {{product.name}} </td>-->
+<!--          <td> {{product.category}} </td>-->
+<!--          <td> {{product.rating}} </td>-->
+<!--          <td> {{product.price}} </td>-->
+<!--          <td> {{product.qty}} </td>-->
+<!--          <td>-->
+<!--            <input type="hidden" id="product_id" name="product_id" required="required" value="{{product.id}}"/>-->
+<!--            <input type="number" class="form-control" id="order_qty" name="order_qty"-->
+<!--                       placeholder="Order qty" required="required" />-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <button type="submit" class="btn btn-primary">-->
+<!--              Order-->
+<!--            </button>-->
+<!--          </td>-->
+<!--        </tr>-->
+      </form>
+      {% endfor %}
+
+  </div>
+
+  <div class="col-lg-6" style="border-left: solid thin black; padding-top: 30px;
+    padding-left: 15px; padding-right: 0px;" >
+    <h3 class="col-lg-12 text-center"> Your Cart </h3>
+
+    <table class="table table-stripped">
+      <tr>
+        <th> Order Id</th>
+        <th> Name </th>
+        <th> Price </th>
+        <th> Ord. Qty </th>
+        <th> Date </th>
+        <th> Action</th>
+      </tr>
+
+      {% for order in orders %}
+        <tr>
+          <td> {{order.order_id}} </td>
+          <td> {{order.product_name}} </td>
+          <td> {{order.price}} </td>
+          <td> {{order.order_qty}} </td>
+          <td> {{order.order_date}} </td>
+          <td>
+            <button type="button" class="btn btn-danger" onClick="deleteOrder({{ order.order_id }})">
+              X
+            </button>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+</section>
+{% endblock %}
